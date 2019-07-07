@@ -1,6 +1,7 @@
 package com.example.instagram;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -11,6 +12,8 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.example.instagram.model.Post;
+
+import org.parceler.Parcels;
 
 import java.util.List;
 
@@ -37,14 +40,11 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
         Post post = mPosts.get(i);
-        String imageUrlHTTPS = post.getImage().getUrl();
-        // TODO workaround for HTTP server, not HTTPS
-        imageUrlHTTPS = imageUrlHTTPS.substring(0, 4) + "s" + imageUrlHTTPS.substring(4);
 
         viewHolder.tvUsername.setText(post.getUser().getUsername());
         viewHolder.tvDescription.setText(post.getDescription());
         Glide.with(context)
-                .load(imageUrlHTTPS)
+                .load(post.getImage().getUrl())
                 .into(viewHolder.ivPicture);
     }
 
@@ -58,12 +58,23 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
         public TextView tvUsername;
         public ImageView ivPicture;
 
-        public ViewHolder(View itemView) {
+        public ViewHolder(final View itemView) {
             super(itemView);
 
             tvDescription = (TextView) itemView.findViewById(R.id.tvDescription);
             tvUsername = (TextView) itemView.findViewById(R.id.tvUsername);
             ivPicture = (ImageView) itemView.findViewById(R.id.ivPicture);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Post post = mPosts.get(getAdapterPosition());
+                    Intent i = new Intent(context, DetailsActivity.class);
+
+                    i.putExtra(Post.class.getSimpleName(), Parcels.wrap(post));
+                    context.startActivity(i);
+                }
+            });
         }
     }
 
