@@ -15,6 +15,7 @@ import com.example.instagram.model.Post;
 
 import org.parceler.Parcels;
 
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
@@ -42,6 +43,10 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
         Post post = mPosts.get(i);
 
         viewHolder.tvUsername.setText(post.getUser().getUsername());
+
+        SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
+        viewHolder.tvCreatedAt.setText(formatter.format(post.getCreatedAt()));
+
         Glide.with(context)
                 .load(post.getImage().getUrl())
                 .into(viewHolder.ivPicture);
@@ -54,12 +59,14 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         public TextView tvUsername;
+        public TextView tvCreatedAt;
         public ImageView ivPicture;
 
         public ViewHolder(final View itemView) {
             super(itemView);
 
             tvUsername = (TextView) itemView.findViewById(R.id.tvUsername);
+            tvCreatedAt = (TextView) itemView.findViewById(R.id.tvCreatedAt);
             ivPicture = (ImageView) itemView.findViewById(R.id.ivPicture);
 
             itemView.setOnClickListener(new View.OnClickListener() {
