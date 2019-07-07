@@ -2,6 +2,7 @@ package com.example.instagram;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -12,7 +13,6 @@ import android.widget.Button;
 import com.example.instagram.model.Post;
 import com.parse.FindCallback;
 import com.parse.ParseException;
-import com.parse.ParseFile;
 import com.parse.ParseUser;
 
 import java.util.ArrayList;
@@ -25,6 +25,7 @@ public class HomeActivity extends AppCompatActivity {
     private RecyclerView rvPosts;
     private ArrayList<Post> posts;
     private PostAdapter postAdapter;
+    private SwipeRefreshLayout swipeContainer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +47,32 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
 
+        postBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final Intent intent = new Intent(HomeActivity.this, PostActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        // Lookup the swipe container view
+        swipeContainer = (SwipeRefreshLayout) findViewById(R.id.swipeContainer);
+        // Setup refresh listener which triggers new data loading
+        swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                // Your code to refresh the list here.
+                // Make sure you call swipeContainer.setRefreshing(false)
+                // once the network request has completed successfully.
+                loadTopPosts();
+            }
+        });
+        // Configure the refreshing colors
+        swipeContainer.setColorSchemeResources(android.R.color.holo_blue_bright,
+                android.R.color.holo_green_light,
+                android.R.color.holo_orange_light,
+                android.R.color.holo_red_light);
+
         rvPosts = (RecyclerView) findViewById(R.id.rvPosts);
         posts = new ArrayList<>();
         postAdapter = new PostAdapter(posts);
@@ -56,10 +83,6 @@ public class HomeActivity extends AppCompatActivity {
 
     }
 
-    private void createPost(String description, ParseFile imageFile, ParseUser user) {
-        // TODO create and save post
-    }
-
     private void loadTopPosts() {
         final Post.Query postQuery = new Post.Query();
         postQuery.getTop().withUser();
@@ -68,8 +91,8 @@ public class HomeActivity extends AppCompatActivity {
             @Override
             public void done(List<Post> objects, ParseException e) {
                 if (e == null) {
-                    posts.clear();
-                    for (int i = 0; i < objects.size(); ++i) {
+                    postAdapter.clear();
+                    for (int i = objects.size() - 1; i >= 0; --i) {
                         Log.d("HomeActivity", "Post[" + i + "] = "
                                 + objects.get(i).getDescription()
                                 + "\nusername = " + objects.get(i).getUser().getUsername()
@@ -78,10 +101,12 @@ public class HomeActivity extends AppCompatActivity {
                         posts.add(objects.get(i));
                         postAdapter.notifyItemInserted(posts.size() - 1);
                     }
+                    swipeContainer.setRefreshing(false);
                 } else {
                     e.printStackTrace();
                 }
             }
         });
     }
+
 }

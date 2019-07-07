@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.instagram.model.Post;
 
 import java.util.List;
@@ -16,6 +17,7 @@ import java.util.List;
 public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
 
     private List<Post> mPosts;
+    Context context;
 
     public PostAdapter(List<Post> posts) {
         mPosts = posts;
@@ -24,7 +26,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        Context context = viewGroup.getContext();
+        context = viewGroup.getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
 
         View postView = inflater.inflate(R.layout.item_post, viewGroup, false);
@@ -35,10 +37,15 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
         Post post = mPosts.get(i);
+        String imageUrlHTTPS = post.getImage().getUrl();
+        // TODO workaround for HTTP server, not HTTPS
+        imageUrlHTTPS = imageUrlHTTPS.substring(0, 4) + "s" + imageUrlHTTPS.substring(4);
 
         viewHolder.tvUsername.setText(post.getUser().getUsername());
         viewHolder.tvDescription.setText(post.getDescription());
-        // TODO set up the picture
+        Glide.with(context)
+                .load(imageUrlHTTPS)
+                .into(viewHolder.ivPicture);
     }
 
     @Override
@@ -46,7 +53,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
         return mPosts.size();
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder {
         public TextView tvDescription;
         public TextView tvUsername;
         public ImageView ivPicture;
@@ -60,4 +67,15 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
         }
     }
 
+    // Clean all elements of the recycler
+    public void clear() {
+        mPosts.clear();
+        notifyDataSetChanged();
+    }
+
+    // Add a list of items -- change to type used
+    public void addAll(List<Post> list) {
+        mPosts.addAll(list);
+        notifyDataSetChanged();
+    }
 }
