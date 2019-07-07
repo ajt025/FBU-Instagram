@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.Button;
 
 import com.example.instagram.fragments.ComposeFragment;
+import com.example.instagram.fragments.ProfileFragment;
 import com.example.instagram.fragments.TimelineFragment;
 import com.parse.ParseUser;
 
@@ -53,7 +54,7 @@ public class HomeActivity extends AppCompatActivity {
                 Fragment fragment;
                 switch (item.getItemId()) {
                     case R.id.action_profile:
-                        fragment = new ComposeFragment();
+                        fragment = new ProfileFragment();
                         break;
                     case R.id.action_capture:
                         fragment = new ComposeFragment();

@@ -23,10 +23,10 @@ import java.util.List;
 
 public class TimelineFragment extends Fragment {
 
-    private RecyclerView rvPosts;
-    private ArrayList<Post> posts;
-    private PostAdapter postAdapter;
-    private SwipeRefreshLayout swipeContainer;
+    public RecyclerView rvPosts;
+    public ArrayList<Post> posts;
+    public PostAdapter postAdapter;
+    public SwipeRefreshLayout swipeContainer;
 
     @Nullable
     @Override
@@ -65,16 +65,18 @@ public class TimelineFragment extends Fragment {
         loadTopPosts();
     }
 
-    private void loadTopPosts() {
+    public void loadTopPosts() {
         final Post.Query postQuery = new Post.Query();
         postQuery.getTop().withUser();
+        postQuery.setLimit(20);
+        postQuery.addDescendingOrder(Post.KEY_CREATED_AT);
 
         postQuery.findInBackground(new FindCallback<Post>() {
             @Override
             public void done(List<Post> objects, ParseException e) {
                 if (e == null) {
                     postAdapter.clear();
-                    for (int i = objects.size() - 1; i >= 0; --i) {
+                    for (int i = 0; i < objects.size(); ++i) {
                         Log.d("HomeActivity", "Post[" + i + "] = "
                                 + objects.get(i).getDescription()
                                 + "\nusername = " + objects.get(i).getUser().getUsername()
