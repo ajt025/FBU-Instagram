@@ -35,7 +35,7 @@ public class DetailsActivity extends AppCompatActivity {
         tvUsername.setText(post.getUser().getUsername());
         tvDescription.setText(post.getDescription());
 
-        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+        SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
 
         tvTimestamp.setText(formatter.format(post.getCreatedAt()));
 

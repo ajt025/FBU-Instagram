@@ -17,7 +17,6 @@
         android:theme="@style/AppTheme.NoActionBar"
         android:usesCleartextTraffic="true">
         <activity android:name=".DetailsActivity"></activity>
-        <activity android:name=".PostActivity" />
         <activity android:name=".HomeActivity" />
         <activity android:name=".SignupActivity" />
         <activity android:name=".LoginActivity">
