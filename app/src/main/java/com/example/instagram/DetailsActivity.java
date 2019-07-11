@@ -118,6 +118,8 @@ public class DetailsActivity extends AppCompatActivity {
                 if (likeArray.getJSONObject(i).getString("objectId")
                         .equals(currentUser.getObjectId())) {
                     likeArray.remove(i);
+                    Log.d("DetailsActivity", "User " + currentUser.getObjectId() + " unliked post "
+                        + post.getObjectId());
                 }
             } catch (JSONException e) {
                 Log.d("DetailsActivity", "Failed to remove User from likes");
