@@ -19,7 +19,6 @@ import com.parse.ParseUser;
 public class HomeActivity extends AppCompatActivity {
 
     private Button signoutBtn;
-    private Button postBtn;
     private BottomNavigationView bottomNavigationView;
 
     @Override
@@ -28,8 +27,6 @@ public class HomeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_home);
 
         signoutBtn = findViewById(R.id.btnSignOut);
-        postBtn = findViewById(R.id.btnPost);
-//        rvPosts = findViewById(R.id.rvPosts);
         bottomNavigationView = findViewById(R.id.bottom_navigation);
 
         // sign the user out and return to login screen

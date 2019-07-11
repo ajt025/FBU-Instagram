@@ -14,8 +14,7 @@ public class ProfileFragment extends TimelineFragment {
     @Override
     public void loadTopPosts() {
         final Post.Query postQuery = new Post.Query();
-        postQuery.getTop().withUser();
-        postQuery.setLimit(20);
+        postQuery.getTop(20).withUser();
         postQuery.whereEqualTo(Post.KEY_USER, ParseUser.getCurrentUser());
         postQuery.addDescendingOrder(Post.KEY_CREATED_AT);
 

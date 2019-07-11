@@ -8,37 +8,18 @@
 
     <ImageView
         android:id="@+id/ivLogo"
-        android:layout_width="246dp"
+        android:layout_width="0dp"
         android:layout_height="55dp"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="12dp"
-        android:layout_marginLeft="12dp"
-        android:layout_marginTop="12dp"
-        android:layout_toEndOf="@+id/btnPost"
-        android:layout_toRightOf="@+id/btnPost"
-        app:layout_constraintEnd_toStartOf="@+id/btnSignOut"
-        app:layout_constraintHorizontal_bias="0.222"
-        app:layout_constraintStart_toEndOf="@+id/btnPost"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/nav_logo_whiteout" />
-
-    <Button
-        android:id="@+id/btnPost"
-        android:layout_width="61dp"
-        android:layout_height="57dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginTop="12dp"
-        android:background="#BAE093"
-        android:fontFamily="serif-monospace"
-        android:text="Post"
-        android:textSize="18sp"
-        android:textStyle="bold"
+        android:layout_toEndOf="@+id/btnPost"
+        android:layout_toRightOf="@+id/btnPost"
+        app:layout_constraintEnd_toStartOf="@+id/btnSignOut"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/nav_logo_whiteout" />
 
     <Button
         android:id="@+id/btnSignOut"

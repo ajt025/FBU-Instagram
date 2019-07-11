@@ -67,8 +67,7 @@ public class TimelineFragment extends Fragment {
 
     public void loadTopPosts() {
         final Post.Query postQuery = new Post.Query();
-        postQuery.getTop().withUser();
-        postQuery.setLimit(20);
+        postQuery.getTop(20).withUser().withLikes();
         postQuery.addDescendingOrder(Post.KEY_CREATED_AT);
 
         postQuery.findInBackground(new FindCallback<Post>() {
